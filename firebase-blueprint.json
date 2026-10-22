@@ -1,0 +1,62 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "A product in the shop's inventory or provider's catalog",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "sku": { "type": "string" },
+        "stock": { "type": "number" },
+        "price": { "type": "number" },
+        "imageUrl": { "type": "string" },
+        "category": { "type": "string" }
+      },
+      "required": ["name", "sku", "stock"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "An order placed by a shopkeeper",
+      "type": "object",
+      "properties": {
+        "items": { "type": "array" },
+        "total": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "confirmed", "in_transit", "delivered"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "shopId": { "type": "string" }
+      },
+      "required": ["items", "total", "status", "createdAt"]
+    },
+    "Shop": {
+      "title": "Shop",
+      "description": "A customer shop in the VMI network",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "address": { "type": "string" },
+        "lat": { "type": "number" },
+        "lng": { "type": "number" },
+        "contact": { "type": "string" }
+      },
+      "required": ["name", "lat", "lng"]
+    }
+  },
+  "firestore": {
+    "shops": {
+      "schema": "Shop",
+      "description": "List of shops in the network"
+    },
+    "shopInventory": {
+      "schema": "Product",
+      "description": "Current stock levels for the shop"
+    },
+    "providerCatalog": {
+      "schema": "Product",
+      "description": "Products available for purchase from the provider"
+    },
+    "orders": {
+      "schema": "Order",
+      "description": "Orders placed by the shopkeeper"
+    }
+  }
+}

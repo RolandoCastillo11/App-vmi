@@ -1,0 +1,10 @@
+{
+  "name": "VMI Retail México",
+  "description": "Gestión inteligente de inventario VMI y optimización de rutas de reparto para tiendas y choferes.",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

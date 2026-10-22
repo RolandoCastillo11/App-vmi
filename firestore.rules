@@ -1,0 +1,73 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Connectivity test
+    match /test/{testId} {
+      allow read: if true;
+    }
+
+    // Helpers
+    function isSignedIn() { return request.auth != null; }
+    function isVerified() { return isSignedIn() && request.auth.token.email_verified == true; }
+    function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+
+    function isValidProduct(data) {
+      return data.keys().hasAll(['name', 'sku', 'stock']) &&
+             data.keys().size() >= 3 &&
+             data.name is string && data.name.size() <= 100 &&
+             data.sku is string && data.sku.size() <= 50 &&
+             data.stock is number &&
+             (!('price' in data) || data.price is number) &&
+             (!('category' in data) || (data.category is string && data.category.size() <= 100)) &&
+             (!('imageUrl' in data) || (data.imageUrl is string && data.imageUrl.size() <= 500));
+    }
+
+    function isValidOrder(data) {
+      return data.keys().hasAll(['items', 'total', 'status', 'createdAt']) &&
+             data.keys().size() >= 4 &&
+             data.items is list && data.items.size() > 0 &&
+             data.total is number &&
+             data.status in ['pending', 'confirmed', 'in_transit', 'delivered'] &&
+             data.createdAt == request.time;
+    }
+
+    // Collections
+    match /shopInventory/{productId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && isValidProduct(incoming());
+      allow update: if isSignedIn() && isValidProduct(incoming());
+      allow delete: if false; // Inventory items shouldn't be deleted by client usually
+    }
+
+    match /providerCatalog/{productId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && isValidProduct(incoming());
+      allow update: if isSignedIn() && 
+                    incoming().diff(existing()).affectedKeys().hasOnly(['stock']) &&
+                    incoming().stock is number;
+    }
+
+    match /orders/{orderId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && isValidOrder(incoming()) && incoming().status == 'pending';
+      allow update: if isSignedIn() && isValidOrder(incoming()) && (
+        // Only allow status updates or similar
+        incoming().diff(existing()).affectedKeys().hasOnly(['status']) &&
+        existing().status != 'delivered' // Lock terminal state
+      );
+    }
+
+    match /shops/{shopId} {
+      allow read: if isSignedIn();
+      allow write: if isSignedIn(); // For demo, let's allow adding shops
+    }
+  }
+}

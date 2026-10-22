@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+@theme {
+  --color-bg-main: #fffcf0; /* Creamy White-Orange */
+  --color-surface-card: #fffbf0; /* Light Peach-Cream */
+  --color-surface-hover: #fff3e0; /* Pale Orange-Cream */
+  --color-text-main: #7c2d12; /* Dark Rust */
+  --color-text-muted: #9a3412; /* Rust */
+  --color-text-light: #fffcf0; /* Cream-White for text on dark bg */
+  --color-border-subtle: #ffedd5; /* Very Light Orange */
+  --color-danger: #f97316; /* Bold Orange as danger alert */
+
+  /* Default values */
+  --color-role-primary: #fb923c;
+  --color-role-primary-dark: #f97316;
+  --color-role-accent: #ffedd5;
+
+  --font-sans: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  
+  --radius-sm: 0.25rem;
+  --radius-DEFAULT: 0.75rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.25rem;
+  --radius-xl: 2rem;
+  --radius-full: 9999px;
+}
+
+/* Role Specific Overrides - Colors that are NOT Neutral (Black/White/Gray) */
+.role-shop {
+  --color-bg-main: #fffbeb; /* Very Pale Amber */
+  --color-surface-card: #fef9c3; /* Light Yellow-Orange */
+  --color-surface-hover: #fef3c7; /* Amber-100 */
+  --color-text-main: #92400e; /* Brown-Orange */
+  --color-text-muted: #b45309; /* Amber-700ish */
+  --color-border-subtle: #fde68a; /* Amber-200 */
+  --color-role-primary: #f59e0b; /* Amber */
+  --color-role-primary-dark: #d97706;
+  --color-role-accent: #fef3c7;
+}
+
+.role-driver {
+  --color-bg-main: #fff7ed; /* Pale Orange */
+  --color-surface-card: #ffedd5; /* Orange-100 */
+  --color-surface-hover: #fed7aa; /* Orange-200 */
+  --color-text-main: #c2410c; /* Deep Orange */
+  --color-text-muted: #ea580c; /* Orange-600 */
+  --color-border-subtle: #fdba74; /* Orange-300 */
+  --color-role-primary: #f97316; /* Orange-500 */
+  --color-role-primary-dark: #c2410c;
+  --color-role-accent: #ffedd5;
+}
+
+body {
+  background-color: var(--color-bg-main);
+  color: var(--color-text-main);
+  font-family: var(--font-sans);
+  min-height: 100dvh;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.soft-shadow {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+.role-primary-bg {
+  background-color: var(--color-role-primary);
+}
+.role-primary-text {
+  color: var(--color-role-primary);
+}
+.role-primary-border {
+  border-color: var(--color-role-primary);
+}
