@@ -1,0 +1,65 @@
+{
+  "id": "com.ibarra.vmi.retail",
+  "name": "VMI Retail México • CEDIS Ibarra",
+  "short_name": "VMI Retail",
+  "description": "Aplicación oficial de gestión inteligente de inventario VMI, pedidos anticipados y optimización de rutas DVRP para Tiendas, Choferes y CEDIS.",
+  "lang": "es-MX",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "orientation": "portrait",
+  "background_color": "#fffcf0",
+  "theme_color": "#f97316",
+  "categories": ["business", "productivity", "logistics"],
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Mi Tienda VMI",
+      "short_name": "Tienda",
+      "description": "Entrar al panel de pedidos e inventario VMI",
+      "url": "/?role=shop",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Ruta de Chofer",
+      "short_name": "Chofer",
+      "description": "Abrir hoja de ruta DVRP y entregas",
+      "url": "/?role=driver",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Operaciones CEDIS",
+      "short_name": "CEDIS",
+      "description": "Panel gerencial de despacho CEDIS Altamira",
+      "url": "/?role=cedis",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ]
+}
+

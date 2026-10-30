@@ -53,11 +53,31 @@
   --color-role-accent: #ffedd5;
 }
 
+.role-cedis {
+  --color-bg-main: #f0fdfa; /* Pale Teal */
+  --color-surface-card: #f0fdf4; /* Light Mint */
+  --color-surface-hover: #ccfbf1; /* Soft Cyan */
+  --color-text-main: #134e4a; /* Deep Teal Slate */
+  --color-text-muted: #115e59; /* Medium Teal */
+  --color-border-subtle: #99f6e4; /* Soft Teal Border */
+  --color-role-primary: #0d9488; /* Vibrant Teal */
+  --color-role-primary-dark: #0f766e;
+  --color-role-accent: #ccfbf1;
+}
+
 body {
   background-color: var(--color-bg-main);
   color: var(--color-text-main);
   font-family: var(--font-sans);
   min-height: 100dvh;
+  overscroll-behavior-y: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+}
+
+button, nav, header {
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .no-scrollbar::-webkit-scrollbar {
@@ -81,3 +101,10 @@ body {
 .role-primary-border {
   border-color: var(--color-role-primary);
 }
+
+/* Ensure Leaflet containers never bleed out or punch through overlays */
+.leaflet-container {
+  z-index: 0 !important;
+  isolation: isolate;
+}
+

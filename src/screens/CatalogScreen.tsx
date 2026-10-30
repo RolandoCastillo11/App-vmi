@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ShoppingCart, Search, Plus, Minus, Check, ArrowLeft, Package, Trash2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { getCatalog, placeOrder, Product, OrderItem } from '../lib/services';
+import { getCatalog, placeOrder, Product, OrderItem, subscribeToSupabaseInventory } from '../lib/services';
 import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 
@@ -18,6 +18,10 @@ export default function CatalogScreen() {
 
   useEffect(() => {
     loadCatalog();
+    const unsubscribe = subscribeToSupabaseInventory(() => {
+      loadCatalog();
+    });
+    return () => unsubscribe();
   }, []);
 
   const loadCatalog = async () => {
@@ -223,7 +227,7 @@ export default function CatalogScreen() {
 
       {/* Success Modal */}
       {orderStatus === 'success' && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-bg-main/80 backdrop-blur-sm p-6">
+        <div className="fixed inset-0 z-[9999] isolate flex items-center justify-center bg-black/75 backdrop-blur-md p-6">
           <motion.div 
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}

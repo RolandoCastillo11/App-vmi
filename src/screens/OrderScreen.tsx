@@ -1,30 +1,29 @@
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Clock, CheckCircle2, ChevronRight, Package, AlertCircle } from 'lucide-react';
+import { ArrowLeft, Clock, CheckCircle2, ChevronRight, Package, AlertCircle, FileText } from 'lucide-react';
 import { motion } from 'motion/react';
-import { collection, query, orderBy, getDocs } from 'firebase/firestore';
-import { db } from '../lib/firebase';
-import { Order } from '../lib/services';
+import { Order, getOrders, subscribeToSupabaseOrders } from '../lib/services';
+import RemisionTicketModal from '../components/RemisionTicketModal';
 
 export default function OrderScreen() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedOrderForTicket, setSelectedOrderForTicket] = useState<Order | null>(null);
 
   useEffect(() => {
     loadOrders();
+    const unsubscribe = subscribeToSupabaseOrders(() => {
+      loadOrders();
+    });
+    return () => unsubscribe();
   }, []);
 
   const loadOrders = async () => {
     setLoading(true);
     try {
-      const q = query(collection(db, 'orders'), orderBy('createdAt', 'desc'));
-      const snapshot = await getDocs(q);
-      const data = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      })) as Order[];
+      const data = await getOrders();
       setOrders(data);
     } catch (error) {
-      console.warn("Could not load Firestore orders, showing sample orders:", error);
+      console.warn("Could not load orders, showing sample orders:", error);
       setOrders([
         {
           id: 'ORD-MX-9821',
@@ -129,9 +128,19 @@ export default function OrderScreen() {
                       <span className="text-[10px] text-text-muted uppercase font-bold tracking-tighter">Total</span>
                       <span className="text-lg font-bold text-text-main font-mono">${order.total.toFixed(2)}</span>
                     </div>
-                    <button className="flex items-center gap-1 text-[10px] font-bold text-[var(--color-role-primary)] uppercase tracking-wider hover:underline">
-                      Detalles <ChevronRight className="w-3 h-3" />
-                    </button>
+                    <div className="flex items-center gap-2">
+                      <button 
+                        onClick={() => setSelectedOrderForTicket(order)}
+                        type="button"
+                        className="px-2.5 py-1 rounded-lg bg-[var(--color-role-primary)]/10 text-[var(--color-role-primary)] hover:bg-[var(--color-role-primary)] hover:text-white transition-all text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer"
+                      >
+                        <FileText size={11} />
+                        <span>Remisión</span>
+                      </button>
+                      <button className="flex items-center gap-1 text-[10px] font-bold text-text-muted uppercase tracking-wider hover:text-text-main cursor-pointer">
+                        <ChevronRight className="w-3 h-3" />
+                      </button>
+                    </div>
                   </div>
                 </div>
 
@@ -142,6 +151,15 @@ export default function OrderScreen() {
             ))}
           </div>
         )}
+
+        {/* Modal de Remisión Digital / Ticket con QR */}
+        <RemisionTicketModal
+          isOpen={Boolean(selectedOrderForTicket)}
+          onClose={() => setSelectedOrderForTicket(null)}
+          order={selectedOrderForTicket}
+          shopName="Abarrotes Don Lupe (Zona Centro Tampico)"
+          driverName="Chofer #402 - Logística CEDIS Altamira"
+        />
 
         <section className="bg-surface-card rounded-2xl p-5 border border-dashed border-border-subtle flex items-start gap-4">
           <AlertCircle className="text-[var(--color-role-primary)] shrink-0 w-5 h-5 mt-0.5" />

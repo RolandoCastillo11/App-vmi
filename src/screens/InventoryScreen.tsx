@@ -1,17 +1,26 @@
 import { useState, useEffect } from 'react';
 import { Search, QrCode, TrendingUp, AlertTriangle, Truck, Package, PlusCircle, Bell } from 'lucide-react';
 import { motion } from 'motion/react';
-import { getInventory, Product } from '../lib/services';
+import { getInventory, Product, subscribeToSupabaseInventory } from '../lib/services';
 import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../lib/firebase';
+import BarcodeScannerModal from '../components/BarcodeScannerModal';
+import VmiForecastingChart from '../components/VmiForecastingChart';
+import { cn } from '../lib/utils';
 
 export default function InventoryScreen() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [isScannerOpen, setIsScannerOpen] = useState(false);
+  const [filterCriticalOnly, setFilterCriticalOnly] = useState(false);
 
   useEffect(() => {
     loadInventory();
+    const unsubscribe = subscribeToSupabaseInventory(() => {
+      loadInventory();
+    });
+    return () => unsubscribe();
   }, []);
 
   const loadInventory = async () => {
@@ -51,20 +60,31 @@ export default function InventoryScreen() {
     }
   };
 
-  const filteredProducts = products.filter(p => 
-    p.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    p.sku.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredProducts = products.filter(p => {
+    const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                          p.sku.toLowerCase().includes(searchTerm.toLowerCase());
+    if (filterCriticalOnly) {
+      return matchesSearch && p.stock <= 5;
+    }
+    return matchesSearch;
+  });
 
   return (
-    <div className="flex flex-col min-h-screen bg-bg-main font-sans">
+    <div className="flex flex-col min-h-screen bg-bg-main font-sans pb-28">
       <header className="sticky top-0 z-20 bg-bg-main/90 backdrop-blur-md border-b border-border-subtle pt-6 pb-3 px-4">
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-3">
           <div className="flex items-center justify-between">
-            <h1 className="text-lg font-bold text-text-main uppercase tracking-wider">Mi Inventario</h1>
-            <button className="relative p-2 rounded-full hover:bg-surface-hover transition-colors">
-              <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-[var(--color-role-primary)] ring-2 ring-bg-main"></span>
-              <Bell className="text-text-main w-5 h-5" />
+            <div>
+              <h1 className="text-base font-bold text-text-main uppercase tracking-wider">Inventario en Tienda</h1>
+              <p className="text-[10px] text-text-muted">Abarrotes Don Lupe • Gestión VMI</p>
+            </div>
+            <button 
+              onClick={() => setIsScannerOpen(true)}
+              type="button"
+              className="px-3 py-1.5 rounded-xl bg-[var(--color-role-primary)] text-[var(--color-text-light)] text-[11px] font-bold flex items-center gap-1.5 shadow hover:scale-105 active:scale-95 transition-all cursor-pointer"
+            >
+              <QrCode size={14} />
+              <span>Escanear Código</span>
             </button>
           </div>
 
@@ -72,28 +92,56 @@ export default function InventoryScreen() {
             <Search className="absolute left-3 top-3 text-text-muted w-4 h-4" />
             <input 
               type="text" 
-              placeholder="Buscar SKU, producto..." 
+              placeholder="Buscar por SKU, producto..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-surface-card border border-border-subtle rounded-xl py-3 pl-10 pr-10 text-sm text-text-main placeholder:text-text-muted focus:ring-1 focus:ring-[var(--color-role-primary)] outline-none transition-all"
+              className="w-full bg-surface-card border border-border-subtle rounded-xl py-2.5 pl-9 pr-10 text-xs text-text-main placeholder:text-text-muted focus:ring-1 focus:ring-[var(--color-role-primary)] outline-none transition-all"
             />
-            <button className="absolute right-2 top-2 p-1 text-text-muted hover:text-[var(--color-role-primary)] transition-colors">
-              <QrCode className="w-5 h-5" />
+            <button 
+              onClick={() => setIsScannerOpen(true)}
+              type="button"
+              className="absolute right-2 top-2 p-1 text-text-muted hover:text-[var(--color-role-primary)] transition-colors cursor-pointer"
+            >
+              <QrCode className="w-4 h-4" />
             </button>
           </div>
 
-          <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1">
-            <button className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[var(--color-role-primary)] text-[var(--color-text-light)] text-xs font-bold whitespace-nowrap soft-shadow">
-              Todos
+          <div className="flex gap-2 pb-0.5">
+            <button 
+              onClick={() => setFilterCriticalOnly(false)}
+              className={cn(
+                "px-3 py-1.5 rounded-xl text-[11px] font-bold transition-all cursor-pointer",
+                !filterCriticalOnly
+                  ? "bg-[var(--color-role-primary)] text-[var(--color-text-light)] soft-shadow"
+                  : "bg-surface-card border border-border-subtle text-text-muted"
+              )}
+            >
+              Todos ({products.length})
             </button>
-            <button className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-surface-card border border-border-subtle text-text-muted text-xs font-bold whitespace-nowrap transition-colors">
-              <span className="w-1.5 h-1.5 rounded-full bg-danger"></span> Crítico
+            <button 
+              onClick={() => setFilterCriticalOnly(true)}
+              className={cn(
+                "flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-bold transition-all cursor-pointer",
+                filterCriticalOnly
+                  ? "bg-danger text-white soft-shadow"
+                  : "bg-surface-card border border-border-subtle text-text-muted"
+              )}
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-danger"></span> 
+              <span>Crítico ({products.filter(p => p.stock <= 5).length})</span>
             </button>
           </div>
         </div>
       </header>
 
-      <main className="flex-1 px-4 py-6 space-y-6">
+      <main className="flex-1 px-4 py-4 space-y-4">
+        {/* Curva interactiva de proyección de demanda VMI */}
+        <VmiForecastingChart 
+          productName="Coca-Cola 600ml"
+          currentStock={products.find(p => p.sku.includes('CC'))?.stock || 4}
+          dailyConsumption={2.5}
+          reorderPoint={6}
+        />
         {loading ? (
           <div className="flex justify-center py-12">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--color-role-primary)]"></div>
@@ -148,13 +196,20 @@ export default function InventoryScreen() {
       </main>
 
       <div className="fixed bottom-24 right-5 z-30 flex flex-col gap-3">
-        <button className="w-14 h-14 bg-surface-card text-[var(--color-role-primary)] rounded-full border border-border-subtle soft-shadow flex items-center justify-center hover:scale-110 active:scale-95 transition-all">
-          <PlusCircle className="w-6 h-6" />
-        </button>
-        <button className="w-14 h-14 bg-[var(--color-role-primary)] text-[var(--color-text-light)] rounded-full shadow-lg flex items-center justify-center hover:scale-110 active:scale-95 transition-all">
+        <button 
+          onClick={() => setIsScannerOpen(true)}
+          className="w-14 h-14 bg-[var(--color-role-primary)] text-[var(--color-text-light)] rounded-full shadow-lg flex items-center justify-center hover:scale-110 active:scale-95 transition-all cursor-pointer"
+        >
           <QrCode className="w-6 h-6 stroke-[2.5px]" />
         </button>
       </div>
+
+      {/* Modal de Escáner de Código de Barras / QR con Cámara */}
+      <BarcodeScannerModal
+        isOpen={isScannerOpen}
+        onClose={() => setIsScannerOpen(false)}
+        onProductUpdated={() => loadInventory()}
+      />
     </div>
   );
 }

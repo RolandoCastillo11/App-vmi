@@ -1,9 +1,15 @@
-import { Bell, TrendingUp, PiggyBank, AlertTriangle, ArrowRight, Package, CheckCircle2, Truck, Clock, Sparkles } from 'lucide-react';
+import { Bell, TrendingUp, PiggyBank, AlertTriangle, ArrowRight, Package, CheckCircle2, Truck, Clock, Sparkles, User } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useState, useEffect } from 'react';
 import { getOrders } from '../lib/services';
 
-export default function DashboardScreen({ onNavigate }: { onNavigate: (screen: string) => void }) {
+export default function DashboardScreen({ 
+  onNavigate, 
+  shopName = 'Abarrotes Don Lupe' 
+}: { 
+  onNavigate: (screen: string) => void; 
+  shopName?: string;
+}) {
   const [aiSuggestion, setAiSuggestion] = useState<string | null>(null);
   const [loadingAI, setLoadingAI] = useState(false);
 
@@ -12,16 +18,14 @@ export default function DashboardScreen({ onNavigate }: { onNavigate: (screen: s
       setLoadingAI(true);
       try {
         const orders = await getOrders();
-        if (orders.length > 0) {
-          const response = await fetch('/api/ai-insight', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ orders })
-          });
-          const data = await response.json();
-          if (data.suggestion) {
-            setAiSuggestion(data.suggestion);
-          }
+        const response = await fetch('/api/ai-insight', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ orders, shopName })
+        });
+        const data = await response.json();
+        if (data.suggestion) {
+          setAiSuggestion(data.suggestion);
         }
       } catch (error) {
         console.error("Error fetching AI suggestion:", error);
@@ -31,19 +35,30 @@ export default function DashboardScreen({ onNavigate }: { onNavigate: (screen: s
     }
 
     fetchAISuggestion();
-  }, []);
+  }, [shopName]);
 
   return (
     <div className="flex flex-col min-h-screen bg-bg-main font-sans">
       <header className="flex items-center justify-between px-5 pt-8 pb-4 sticky top-0 z-20 bg-bg-main/90 backdrop-blur-md border-b border-border-subtle">
         <div className="flex flex-col">
-          <span className="text-sm font-medium text-text-muted font-mono tracking-tight">Bienvenido de nuevo</span>
-          <h1 className="text-2xl font-bold leading-tight text-text-main mt-1">Abarrotes Lupita 👋</h1>
+          <span className="text-[10px] font-bold text-[var(--color-role-primary)] font-mono tracking-wider uppercase">
+            Almacenes Ibarra • CEDIS Altamira
+          </span>
+          <h1 className="text-xl font-bold leading-tight text-text-main mt-0.5">{shopName} 👋</h1>
         </div>
-        <button className="relative p-2 rounded-full hover:bg-surface-hover transition-colors">
-          <Bell className="text-text-main w-6 h-6" />
-          <span className="absolute top-2 right-2 h-2.5 w-2.5 rounded-full role-primary-bg border-2 border-surface-card"></span>
-        </button>
+        <div className="flex items-center gap-1">
+          <button 
+            onClick={() => onNavigate('profile')} 
+            title="Mi Perfil y Cerrar Sesión"
+            className="p-2 rounded-full hover:bg-surface-hover text-text-main transition-colors cursor-pointer"
+          >
+            <User className="w-5 h-5" />
+          </button>
+          <button className="relative p-2 rounded-full hover:bg-surface-hover transition-colors">
+            <Bell className="text-text-main w-5 h-5" />
+            <span className="absolute top-2 right-2 h-2 w-2 rounded-full role-primary-bg border-2 border-surface-card"></span>
+          </button>
+        </div>
       </header>
 
       <main className="flex-1 px-5 pb-8 space-y-8">
@@ -208,28 +223,33 @@ export default function DashboardScreen({ onNavigate }: { onNavigate: (screen: s
             Entregas Programadas
           </h2>
           <div className="bg-surface-card rounded-2xl border border-border-subtle divide-y divide-border-subtle soft-shadow overflow-hidden">
-            <div className="p-4 flex gap-4 items-center">
-              <div className="relative">
-                <div className="w-12 h-12 rounded-xl bg-bg-main border border-border-subtle flex items-center justify-center text-[var(--color-role-primary)]">
-                  <span className="font-bold text-[10px] tracking-widest">PROV</span>
+            <div className="p-4 space-y-3">
+              <div className="flex gap-4 items-center">
+                <div className="relative">
+                  <div className="w-12 h-12 rounded-xl bg-bg-main border border-border-subtle flex items-center justify-center text-[var(--color-role-primary)]">
+                    <span className="font-bold text-[10px] tracking-widest">CEDIS</span>
+                  </div>
+                  <div className="absolute -bottom-1 -right-1 role-primary-bg border-2 border-surface-card w-4 h-4 rounded-full shadow-sm"></div>
                 </div>
-                <div className="absolute -bottom-1 -right-1 role-primary-bg border-2 border-surface-card w-4 h-4 rounded-full shadow-sm"></div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex justify-between items-start mb-0.5">
+                    <h4 className="font-bold text-sm text-text-main truncate pr-2">Almacenes Ibarra (CEDIS)</h4>
+                    <span className="text-[10px] font-bold text-[var(--color-role-primary)] bg-bg-main px-1.5 py-0.5 rounded border border-border-subtle whitespace-nowrap">En ruta</span>
+                  </div>
+                  <p className="text-[10px] text-text-muted font-mono">Camión #402 • Reparto Altamira-Tampico</p>
+                  <div className="flex items-center gap-1 mt-1 text-[10px] text-text-muted">
+                    <Clock className="w-3 h-3 text-[var(--color-role-primary)]" /> Entrega hoy: 14:30 hrs
+                  </div>
+                </div>
               </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex justify-between items-start mb-0.5">
-                  <h4 className="font-bold text-sm text-text-main truncate pr-2">Proveedor Local</h4>
-                  <span className="text-[10px] font-bold text-[var(--color-role-primary)] bg-bg-main px-1.5 py-0.5 rounded border border-border-subtle whitespace-nowrap">En camino</span>
-                </div>
-                <p className="text-[10px] text-text-muted font-mono">Orden #8392 • 24 Cajas</p>
-                <div className="flex items-center gap-1 mt-1.5 text-[10px] text-text-muted">
-                  <Clock className="w-3 h-3 text-[var(--color-role-primary)]" /> Hoy, 14:30
-                </div>
-              </div>
+
               <button 
-                onClick={() => onNavigate('orders')}
-                className="w-8 h-8 shrink-0 rounded-full bg-bg-main flex items-center justify-center text-text-muted hover:text-[var(--color-role-primary)] transition-colors border border-border-subtle"
+                onClick={() => onNavigate('route')}
+                className="w-full py-2.5 px-3 rounded-xl bg-[var(--color-role-primary)]/10 hover:bg-[var(--color-role-primary)]/20 text-[var(--color-role-primary)] text-xs font-bold transition-all border border-[var(--color-role-primary)]/20 flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98]"
               >
-                <ArrowRight className="w-4 h-4" />
+                <Truck className="w-4 h-4" />
+                <span>Ver Mapa y Ruta Logística en Vivo</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
           </div>

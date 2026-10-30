@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: vmi-retail-app
+    runtime: node
+    plan: free
+    region: ohio
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: VITE_SUPABASE_URL
+        value: https://folzaumlkkvztrnsefzi.supabase.co
+      - key: VITE_SUPABASE_ANON_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: WHATSAPP_PHONE_NUMBER
+        value: "+528331759734"
