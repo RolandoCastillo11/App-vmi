@@ -77,7 +77,7 @@ export default function DashboardScreen({
                     <Sparkles className="text-white w-6 h-6 animate-pulse" />
                   </div>
                   <div className="flex-1">
-                    <h4 className="text-[var(--color-text-light)] text-[10px] font-bold uppercase tracking-widest opacity-80 mb-1">Recomendación IA</h4>
+                    <h4 className="text-[var(--color-text-light)] text-[10px] font-bold uppercase tracking-widest opacity-80 mb-1">Sugerencia de Reabastecimiento</h4>
                     <p className="text-white font-medium text-sm leading-snug">
                       {aiSuggestion}
                     </p>
@@ -181,7 +181,7 @@ export default function DashboardScreen({
                     <span className="bg-[var(--color-role-primary)]/10 text-[var(--color-role-primary)] text-[8px] font-bold px-2 py-0.5 rounded border border-[var(--color-role-primary)]/20 uppercase tracking-widest">
                       VMI OPTIMIZADO
                     </span>
-                    <span className="text-[10px] text-text-muted font-mono">IA Predictiva</span>
+                    <span className="text-[10px] text-text-muted font-mono">Pedido Programado</span>
                   </div>
                   <h2 className="text-xl font-bold text-text-main">Pedido Sugerido</h2>
                 </div>

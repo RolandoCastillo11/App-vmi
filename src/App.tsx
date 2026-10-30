@@ -339,7 +339,7 @@ export default function App() {
                       Alertas en Tiempo Real
                     </span>
                     <p className="text-xs font-bold text-text-main">
-                      Notificaciones Push VMI
+                      Notificaciones en el Dispositivo
                     </p>
                     <p className="text-[10px] text-text-muted">
                       Avisos de llegada de camión, stock crítico y entregas.
@@ -350,10 +350,10 @@ export default function App() {
                   type="button"
                   onClick={() => {
                     sendLocalPushNotification({
-                      title: 'Notificaciones VMI Activas 🔔',
+                      title: 'Notificaciones Activas 🔔',
                       body:
                         role === 'driver'
-                          ? 'Ruta #04 Tampico-Madero sincronizada con CEDIS Altamira.'
+                          ? 'Ruta Tampico-Madero sincronizada con CEDIS Altamira.'
                           : role === 'cedis'
                             ? 'Monitoreo de flota y liquidaciones en tiempo real activo.'
                             : 'Te avisaremos cuando el Camión #402 esté por llegar a tu tienda.',
@@ -362,7 +362,7 @@ export default function App() {
                   }}
                   className="px-3.5 py-2 rounded-xl bg-bg-main border border-border-subtle hover:border-[var(--color-role-primary)] text-text-main font-bold text-[10px] uppercase tracking-wider transition-all cursor-pointer shrink-0"
                 >
-                  Probar Push
+                  Activar Avisos
                 </button>
               </div>
 

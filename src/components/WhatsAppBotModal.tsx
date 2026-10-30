@@ -314,7 +314,7 @@ export default function WhatsAppBotModal({
                 <span>en línea</span>
                 <span>•</span>
                 <span className="flex items-center gap-1">
-                  <Sparkles size={11} className="text-amber-300" /> IA Gemini 2.0
+                  <Sparkles size={11} className="text-amber-300" /> Atención Automática 24/7
                 </span>
               </p>
             </div>
@@ -436,7 +436,7 @@ export default function WhatsAppBotModal({
                     Recepción automática de pedidos activa
                   </p>
                   <p className="text-[10px] leading-relaxed">
-                    Cualquier tendero o cliente que le mande un WhatsApp a este número recibirá respuestas de pedidos automáticas con IA y los pedidos se guardarán en Supabase.
+                    Cualquier cliente que envíe un WhatsApp a este número recibirá confirmación inmediata y sus pedidos quedarán registrados en el sistema del CEDIS.
                   </p>
                 </div>
 
@@ -516,7 +516,7 @@ export default function WhatsAppBotModal({
                   onClick={() => setActiveView('chat')}
                   className="text-xs text-emerald-600 hover:text-emerald-700 font-bold underline cursor-pointer"
                 >
-                  Volver al simulador de chat
+                  Volver al chat de pedidos
                 </button>
               </div>
             )}
@@ -535,7 +535,7 @@ export default function WhatsAppBotModal({
               {/* Mensaje de cifrado */}
               <div className="flex justify-center my-1">
                 <div className="bg-[#ffeecd] dark:bg-[#182229] text-[#54656f] dark:text-[#8696a0] text-[10px] py-1 px-3 rounded-lg text-center max-w-xs shadow-xs border border-amber-200/50 dark:border-transparent">
-                  🔒 Los pedidos registrados en este chat se transmiten automáticamente a la base de datos de Almacenes Ibarra y al camión #402.
+                  🔒 Los pedidos registrados en este canal se asignan automáticamente al CEDIS Altamira y a tu ruta de reparto.
                 </div>
               </div>
 
@@ -600,7 +600,7 @@ export default function WhatsAppBotModal({
               {isRecording && (
                 <div className="flex items-center gap-2 text-xs text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 px-4 py-2 rounded-2xl w-fit shadow-xs animate-pulse">
                   <span className="w-2.5 h-2.5 rounded-full bg-red-600"></span>
-                  <span className="font-bold">Grabando nota de voz del tendero...</span>
+                  <span className="font-bold">Grabando nota de voz...</span>
                 </div>
               )}
 
@@ -630,7 +630,7 @@ export default function WhatsAppBotModal({
                 type="button"
                 onClick={handleSimulateVoice}
                 disabled={loading || isRecording}
-                title="Simular nota de voz del tendero"
+                title="Enviar nota de voz"
                 className="p-2.5 rounded-full bg-white dark:bg-[#2a3942] text-emerald-600 dark:text-emerald-400 hover:scale-105 active:scale-95 transition-all shadow-xs cursor-pointer disabled:opacity-50"
               >
                 <Mic size={18} />

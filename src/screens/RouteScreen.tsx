@@ -542,7 +542,7 @@ export default function RouteScreen() {
             <span>
               {!isOnline
                 ? `Modo Offline Activo • ${pendingCount} entrega(s) guardadas en teléfono`
-                : `${pendingCount} entrega(s) listas para sincronizar con Supabase`}
+                : `${pendingCount} entrega(s) listas para sincronizar`}
             </span>
           </div>
           {isOnline && pendingCount > 0 && (
@@ -592,7 +592,7 @@ export default function RouteScreen() {
                 : 'text-text-muted hover:text-text-main'
             }`}
           >
-            <Package size={13} /> LIFO
+            <Package size={13} /> Estiba
           </button>
           <button
             type="button"
@@ -621,10 +621,8 @@ export default function RouteScreen() {
             <RouteIcon className="text-[var(--color-role-primary)] w-3.5 h-3.5 shrink-0" />
             <span className="text-[10px] font-bold uppercase tracking-wider text-text-main">
               {optimizing
-                ? 'Trazando calles...'
-                : `${totalStopsCount} Paradas • ${routeStats?.totalDistanceKm || 32.4} km (${
-                    routeSource === 'osrm-streets' ? 'Vial GPS' : 'Corredor Vial'
-                  })`}
+                ? 'Trazando ruta...'
+                : `${totalStopsCount} Paradas • ${routeStats?.totalDistanceKm || 32.4} km • Ruta Óptima`}
             </span>
           </div>
 
@@ -682,7 +680,7 @@ export default function RouteScreen() {
             <button
               type="button"
               onClick={() => loadShops()}
-              title="Recalcular Ruta Óptima 2-Opt"
+              title="Actualizar Ruta"
               className="p-2 bg-surface-card/95 rounded-full border border-border-subtle soft-shadow text-text-muted hover:text-text-main transition-all cursor-pointer"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${optimizing ? 'animate-spin' : ''}`} />
@@ -996,7 +994,7 @@ export default function RouteScreen() {
       >
         <div className="bg-surface-card p-3.5 rounded-2xl border border-border-subtle soft-shadow space-y-2">
           <div className="flex justify-between items-center text-xs">
-            <span className="font-bold text-text-main">Progreso de Entrega en Ruta (2-Opt Vial)</span>
+            <span className="font-bold text-text-main">Progreso de Entregas del Día</span>
             <span className="font-mono font-bold text-[var(--color-role-primary)]">
               {deliveredCount} de {totalStopsCount} completadas ({progressPercent}%)
             </span>
@@ -1011,7 +1009,7 @@ export default function RouteScreen() {
 
         <div className="flex justify-between items-center px-1">
           <span className="text-[10px] font-bold text-text-muted uppercase tracking-wider">
-            Secuencia Óptima DVRP + 2-Opt
+            Orden de Visita Programado
           </span>
           <span className="text-[10px] font-bold text-text-muted">
             Total: {routeStats?.totalDistanceKm || 32.4} km
@@ -1118,11 +1116,11 @@ export default function RouteScreen() {
         <div className="bg-surface-card p-4 rounded-2xl border border-border-subtle soft-shadow space-y-2">
           <h4 className="text-xs font-bold text-text-main uppercase flex items-center gap-2">
             <Package size={15} className="text-[var(--color-role-primary)]" />
-            <span>Algoritmo LIFO (Last In, First Out) • CEDIS Altamira</span>
+            <span>Orden de Estiba en Camión • CEDIS Altamira</span>
           </h4>
           <p className="text-[11px] text-text-muted leading-relaxed">
-            Sincronizado con el recorrido óptimo 2-Opt: la <strong>última parada</strong> se estiba al{' '}
-            <strong>fondo de la caja</strong> del camión, y la <strong>primera parada</strong> se coloca junto a la{' '}
+            Ordenado según la secuencia de paradas: la <strong>última entrega</strong> se coloca al{' '}
+            <strong>fondo de la caja</strong> del camión, y la <strong>primera entrega</strong> junto a la{' '}
             <strong>puerta trasera</strong> para descarga inmediata sin reacomodos.
           </p>
 
@@ -1278,7 +1276,7 @@ export default function RouteScreen() {
           >
             <Send size={14} />
             <span>
-              {settlementSent ? 'Corte de Caja Registrado en Supabase ✓' : 'Enviar Corte de Caja a CEDIS Altamira'}
+              {settlementSent ? 'Corte de Caja Enviado a CEDIS ✓' : 'Enviar Corte de Caja a CEDIS Altamira'}
             </span>
           </button>
         </div>

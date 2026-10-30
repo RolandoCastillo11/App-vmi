@@ -19,3 +19,4 @@ services:
         sync: false
       - key: WHATSAPP_PHONE_NUMBER
         value: "+528331759734"
+

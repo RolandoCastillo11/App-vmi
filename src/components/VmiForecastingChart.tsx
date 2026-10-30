@@ -43,7 +43,7 @@ export default function VmiForecastingChart({
         <div>
           <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 mb-1">
             <TrendingDown size={12} />
-            <span>Curva de Agotamiento VMI • Pronóstico IA</span>
+            <span>Proyección Semanal de Inventario</span>
           </div>
           <h4 className="text-xs font-bold text-text-main">{productName}</h4>
         </div>

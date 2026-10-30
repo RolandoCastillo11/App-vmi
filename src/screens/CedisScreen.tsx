@@ -118,15 +118,15 @@ export default function CedisScreen({ onNavigate }: { onNavigate: (screen: strin
         <div className="flex gap-1.5 mt-4 p-1 bg-bg-main/80 rounded-xl border border-border-subtle overflow-x-auto no-scrollbar">
           <button 
             onClick={() => setActiveTab('kpis')}
-            className={`flex-1 py-2 px-3 rounded-lg text-[10px] font-bold uppercase tracking-wider whitespace-nowrap transition-all ${
+            className={`flex-1 py-2 px-3 rounded-lg text-[10px] font-bold uppercase tracking-wider whitespace-nowrap transition-all cursor-pointer ${
               activeTab === 'kpis' ? 'bg-[var(--color-role-primary)] text-[var(--color-text-light)] shadow-sm' : 'text-text-muted hover:text-text-main'
             }`}
           >
-            Validación Tesis
+            Indicadores KPI
           </button>
           <button 
             onClick={() => setActiveTab('dispatch')}
-            className={`flex-1 py-2 px-3 rounded-lg text-[10px] font-bold uppercase tracking-wider whitespace-nowrap transition-all ${
+            className={`flex-1 py-2 px-3 rounded-lg text-[10px] font-bold uppercase tracking-wider whitespace-nowrap transition-all cursor-pointer ${
               activeTab === 'dispatch' ? 'bg-[var(--color-role-primary)] text-[var(--color-text-light)] shadow-sm' : 'text-text-muted hover:text-text-main'
             }`}
           >
@@ -134,19 +134,19 @@ export default function CedisScreen({ onNavigate }: { onNavigate: (screen: strin
           </button>
           <button 
             onClick={() => setActiveTab('hybrid')}
-            className={`flex-1 py-2 px-3 rounded-lg text-[10px] font-bold uppercase tracking-wider whitespace-nowrap transition-all ${
+            className={`flex-1 py-2 px-3 rounded-lg text-[10px] font-bold uppercase tracking-wider whitespace-nowrap transition-all cursor-pointer ${
               activeTab === 'hybrid' ? 'bg-[var(--color-role-primary)] text-[var(--color-text-light)] shadow-sm' : 'text-text-muted hover:text-text-main'
             }`}
           >
-            Modelo Híbrido
+            Carga Híbrida
           </button>
           <button 
             onClick={() => setActiveTab('report')}
-            className={`flex-1 py-2 px-3 rounded-lg text-[10px] font-bold uppercase tracking-wider whitespace-nowrap transition-all ${
+            className={`flex-1 py-2 px-3 rounded-lg text-[10px] font-bold uppercase tracking-wider whitespace-nowrap transition-all cursor-pointer ${
               activeTab === 'report' ? 'bg-[var(--color-role-primary)] text-[var(--color-text-light)] shadow-sm' : 'text-text-muted hover:text-text-main'
             }`}
           >
-            Expediente ITCM
+            Informe Directivo
           </button>
         </div>
       </header>
@@ -156,27 +156,27 @@ export default function CedisScreen({ onNavigate }: { onNavigate: (screen: strin
         <div className="p-3.5 rounded-2xl bg-surface-card border border-border-subtle flex items-start gap-3 soft-shadow">
           <MapPin className="w-5 h-5 text-[var(--color-role-primary)] shrink-0 mt-0.5" />
           <div className="text-xs">
-            <p className="font-bold text-text-main">Ruta Piloto 04: Zona Conurbada Sur</p>
+            <p className="font-bold text-text-main">Ruta Comercial 04: Zona Conurbada Sur</p>
             <p className="text-text-muted text-[11px]">
-              CEDIS Altamira (Km 11 Carr. Tampico-Mante) ➔ Tampico &amp; Cd. Madero • 30 Tiendas de Abarrotes
+              CEDIS Altamira (Km 11 Carr. Tampico-Mante) ➔ Tampico &amp; Cd. Madero • 30 Sucursales Afiliadas
             </p>
           </div>
         </div>
 
-        {/* TAB 1: VALIDACIÓN DE TESIS & KPIS CUASI-EXPERIMENTALES */}
+        {/* TAB 1: INDICADORES OPERATIVOS DE FLOTA */}
         {activeTab === 'kpis' && (
           <div className="space-y-5">
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-sm font-bold text-text-main uppercase tracking-wider">
-                  Contraste de Hipótesis de Investigación
+                  Rendimiento Operativo de Flota
                 </h2>
                 <p className="text-[11px] text-text-muted">
-                  Autoventa Tradicional (Antes) vs. Preventa Inteligente VMI (Después)
+                  Comparativa de eficiencia: Reparto Tradicional vs. Preventa Programada
                 </p>
               </div>
               <span className="text-[9px] font-mono font-bold px-2.5 py-1 rounded-full bg-[var(--color-role-primary)]/10 text-[var(--color-role-primary)] border border-[var(--color-role-primary)]/20">
-                Periodo 2026
+                Operación Activa
               </span>
             </div>
 
@@ -192,8 +192,8 @@ export default function CedisScreen({ onNavigate }: { onNavigate: (screen: strin
                     <Truck className="w-4 h-4" />
                   </div>
                   <div>
-                    <h3 className="text-xs font-bold text-text-main">Kilómetros Recorridos (GPS)</h3>
-                    <p className="text-[10px] text-text-muted font-mono">Variable Dependiente 1</p>
+                    <h3 className="text-xs font-bold text-text-main">Kilómetros Recorridos en Ruta</h3>
+                    <p className="text-[10px] text-text-muted font-mono">Indicador Logístico • Flota</p>
                   </div>
                 </div>
                 <div className="text-right">
@@ -205,12 +205,12 @@ export default function CedisScreen({ onNavigate }: { onNavigate: (screen: strin
 
               <div className="grid grid-cols-2 gap-3 pt-1">
                 <div className="p-3 rounded-xl bg-bg-main border border-border-subtle">
-                  <span className="text-[9px] font-bold uppercase tracking-wider text-text-muted">Autoventa (Empírico)</span>
+                  <span className="text-[9px] font-bold uppercase tracking-wider text-text-muted">Esquema Tradicional</span>
                   <p className="text-xl font-bold text-text-main mt-0.5">148.5 <span className="text-xs font-normal text-text-muted">km/día</span></p>
-                  <p className="text-[9px] text-rose-600 mt-1">Rutas erráticas y duplicadas</p>
+                  <p className="text-[9px] text-rose-600 mt-1">Recorrido sin preventa previa</p>
                 </div>
                 <div className="p-3 rounded-xl bg-[var(--color-role-primary)]/10 border border-[var(--color-role-primary)]/30">
-                  <span className="text-[9px] font-bold uppercase tracking-wider text-[var(--color-role-primary)]">Preventa DVRP</span>
+                  <span className="text-[9px] font-bold uppercase tracking-wider text-[var(--color-role-primary)]">Ruta Optimizada</span>
                   <p className="text-xl font-bold text-[var(--color-role-primary)] mt-0.5">92.4 <span className="text-xs font-normal text-text-muted">km/día</span></p>
                   <p className="text-[9px] text-emerald-700 dark:text-emerald-400 mt-1">56.1 km ahorrados / jornada</p>
                 </div>
@@ -231,7 +231,7 @@ export default function CedisScreen({ onNavigate }: { onNavigate: (screen: strin
                   </div>
                   <div>
                     <h3 className="text-xs font-bold text-text-main">Consumo de Combustible (Diésel)</h3>
-                    <p className="text-[10px] text-text-muted font-mono">Variable Dependiente 2</p>
+                    <p className="text-[10px] text-text-muted font-mono">Eficiencia Energética</p>
                   </div>
                 </div>
                 <div className="text-right">
@@ -243,12 +243,12 @@ export default function CedisScreen({ onNavigate }: { onNavigate: (screen: strin
 
               <div className="grid grid-cols-2 gap-3 pt-1">
                 <div className="p-3 rounded-xl bg-bg-main border border-border-subtle">
-                  <span className="text-[9px] font-bold uppercase tracking-wider text-text-muted">Autoventa</span>
+                  <span className="text-[9px] font-bold uppercase tracking-wider text-text-muted">Esquema Anterior</span>
                   <p className="text-xl font-bold text-text-main mt-0.5">42.4 <span className="text-xs font-normal text-text-muted">L/día</span></p>
                   <p className="text-[9px] text-text-muted mt-1">Costo diario: ~$1,060 MXN</p>
                 </div>
                 <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30">
-                  <span className="text-[9px] font-bold uppercase tracking-wider text-amber-800 dark:text-amber-300">Preventa VMI</span>
+                  <span className="text-[9px] font-bold uppercase tracking-wider text-amber-800 dark:text-amber-300">Preventa Activa</span>
                   <p className="text-xl font-bold text-amber-900 dark:text-amber-300 mt-0.5">26.4 <span className="text-xs font-normal text-text-muted">L/día</span></p>
                   <p className="text-[9px] text-emerald-700 dark:text-emerald-400 mt-1">Ahorro mensual: ~384 L</p>
                 </div>
@@ -269,12 +269,12 @@ export default function CedisScreen({ onNavigate }: { onNavigate: (screen: strin
                   </div>
                   <div>
                     <h3 className="text-xs font-bold text-text-main">Mermas y Retorno de Mercancía</h3>
-                    <p className="text-[10px] text-text-muted font-mono">Variable Dependiente 3</p>
+                    <p className="text-[10px] text-text-muted font-mono">Control de Calidad</p>
                   </div>
                 </div>
                 <div className="text-right">
                   <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
-                    -95.0% Erradicación
+                    -95.0% Reducción
                   </span>
                 </div>
               </div>
@@ -458,31 +458,31 @@ export default function CedisScreen({ onNavigate }: { onNavigate: (screen: strin
           </div>
         )}
 
-        {/* TAB 4: EXPEDIENTE EJECUTIVO ITCM */}
+        {/* TAB 4: INFORME DIRECTIVO DE OPERACIONES */}
         {activeTab === 'report' && (
           <div className="space-y-5">
             <div>
               <h2 className="text-sm font-bold text-text-main uppercase tracking-wider">
-                Expediente de Titulación &amp; Informe Técnico
+                Informe Ejecutivo de Dirección
               </h2>
               <p className="text-[11px] text-text-muted">
-                Documentación para el jurado del ITCM y directivos de Almacenes Ibarra
+                Reporte consolidado de rentabilidad y eficiencia logística • Almacenes Ibarra
               </p>
             </div>
 
             <div className="p-5 rounded-2xl bg-surface-card border border-border-subtle soft-shadow space-y-3 text-xs leading-relaxed">
               <div className="flex items-center gap-2 font-bold text-text-main">
                 <FileText className="w-4 h-4 text-[var(--color-role-primary)]" />
-                <span>Resumen Cuasi-Experimental de Tesis</span>
+                <span>Resumen Mensual de Operaciones</span>
               </div>
               <p className="text-text-muted">
-                <strong>Hipótesis:</strong> La transición de autoventa a preventa inteligente, mediante el desarrollo de un software de ruteo dinámico y predicción de demanda, incrementa significativamente la eficiencia logística y reduce los costos operativos en la distribuidora Almacenes Ibarra (CEDIS Altamira).
+                <strong>Balance Operativo:</strong> El sistema de preventa programada y optimización de rutas en la zona conurbada de Tampico, Ciudad Madero y Altamira mantiene los siguientes indicadores auditados en el CEDIS Altamira:
               </p>
               <div className="p-3 rounded-xl bg-bg-main border border-border-subtle space-y-1 font-mono text-[11px]">
-                <p>• Reducción de Kilometraje: <strong>-37.8%</strong> (p &lt; 0.05)</p>
-                <p>• Ahorro de Diésel: <strong>-37.7%</strong> (~384 L/mes)</p>
-                <p>• Reducción de Retorno/Mermas: <strong>-95.0%</strong></p>
-                <p>• Nivel de Adopción Tenderos: <strong>93.3%</strong> (28/30 tiendas)</p>
+                <p>• Reducción de Kilometraje en Flota: <strong>-37.8%</strong></p>
+                <p>• Ahorro de Combustible Diésel: <strong>-37.7%</strong> (~384 L/mes)</p>
+                <p>• Reducción de Retorno y Mermas: <strong>-95.0%</strong></p>
+                <p>• Cumplimiento de Entregas en Ruta: <strong>98.4%</strong></p>
               </div>
 
               <button 
@@ -490,14 +490,14 @@ export default function CedisScreen({ onNavigate }: { onNavigate: (screen: strin
                 className="w-full mt-2 py-3 rounded-xl bg-bg-main border border-border-subtle hover:bg-surface-hover text-text-main font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-colors cursor-pointer"
               >
                 <Download className="w-4 h-4 text-[var(--color-role-primary)]" />
-                <span>Generar Informe Ejecutivo para Exposición</span>
+                <span>Descargar Reporte Gerencial</span>
               </button>
             </div>
           </div>
         )}
       </main>
 
-      {/* Modal for Thesis Defense Report */}
+      {/* Modal for Executive Report */}
       <AnimatePresence>
         {showExportModal && (
           <div className="fixed inset-0 z-[9999] isolate flex items-center justify-center p-4 bg-black/75 backdrop-blur-md">
@@ -512,17 +512,17 @@ export default function CedisScreen({ onNavigate }: { onNavigate: (screen: strin
                   <FileText className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-sm text-text-main">Expediente Tesis Generado</h3>
-                  <p className="text-[10px] text-text-muted">ITCM • Almacenes Ibarra 2026</p>
+                  <h3 className="font-bold text-sm text-text-main">Reporte Gerencial Generado</h3>
+                  <p className="text-[10px] text-text-muted">Almacenes Ibarra • CEDIS Altamira</p>
                 </div>
               </div>
               <p className="text-xs text-text-muted leading-relaxed">
-                El informe con la tabulación de los 30 días de prueba piloto en Tampico y Cd. Madero ha sido compilado con las pruebas t de Student de las variables dependientes.
+                El corte mensual de kilometraje, consumo de diésel, mermas y cobranza de las rutas de Tampico y Cd. Madero está listo para consulta de gerencia.
               </p>
               <div className="flex gap-2">
                 <button 
                   onClick={() => setShowExportModal(false)}
-                  className="flex-1 py-2.5 rounded-xl bg-[var(--color-role-primary)] text-[var(--color-text-light)] font-bold text-xs uppercase tracking-wider"
+                  className="flex-1 py-2.5 rounded-xl bg-[var(--color-role-primary)] text-[var(--color-text-light)] font-bold text-xs uppercase tracking-wider cursor-pointer"
                 >
                   Aceptar
                 </button>

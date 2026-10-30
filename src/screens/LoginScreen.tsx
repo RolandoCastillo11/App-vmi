@@ -130,7 +130,7 @@ export default function LoginScreen({ onLogin }: { onLogin: (role: 'driver' | 's
         if (error) {
           setErrorMessage(error.message);
         } else if (user) {
-          setSuccessMessage('¡Tienda registrada con éxito en Supabase! Ingresando...');
+          setSuccessMessage('¡Tienda afiliada con éxito! Ingresando...');
           setTimeout(() => onLogin('shop'), 1200);
         }
       } catch (err: any) {
@@ -368,16 +368,11 @@ export default function LoginScreen({ onLogin }: { onLogin: (role: 'driver' | 's
       ></div>
 
       <header className="relative flex flex-col items-center pt-8 pb-3 px-6 text-center">
-        {/* Supabase status badge */}
+        {/* Corporate status badge */}
         <div className="flex items-center gap-2 mb-3">
-          <div className={cn(
-            "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border",
-            isSupabaseConfigured 
-              ? "bg-emerald-500/10 text-emerald-600 border-emerald-500/20" 
-              : "bg-amber-500/10 text-amber-600 border-amber-500/20"
-          )}>
-            <Database size={11} />
-            <span>{isSupabaseConfigured ? 'Supabase Conectado' : 'Supabase Demo'}</span>
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border bg-emerald-500/10 text-emerald-600 border-emerald-500/20">
+            <ShieldCheck size={11} />
+            <span>Red Comercial en Línea</span>
           </div>
         </div>
 
@@ -397,14 +392,14 @@ export default function LoginScreen({ onLogin }: { onLogin: (role: 'driver' | 's
           ALMACENES IBARRA
         </h1>
         <span className="text-[11px] font-bold text-[var(--color-role-primary)] uppercase tracking-wider mb-2">
-          CEDIS Altamira • Preventa Inteligente
+          CEDIS Altamira • Portal de Operaciones
         </span>
 
         <div className="w-10 h-1 bg-[var(--color-role-primary)] rounded-full mb-2" />
         <p className="text-text-muted text-xs max-w-[300px]">
-          {role === 'shop' && 'Tienda: Pedidos anticipados VMI y control de inventario.'}
-          {role === 'driver' && 'Repartidor: Hoja de ruta DVRP y secuencia de descarga.'}
-          {role === 'cedis' && 'CEDIS: Indicadores clave, despacho y modelo híbrido.'}
+          {role === 'shop' && 'Tienda: Pedidos anticipados y control de inventario.'}
+          {role === 'driver' && 'Repartidor: Hoja de ruta y entregas del día.'}
+          {role === 'cedis' && 'CEDIS: Indicadores operativos, despacho y logística.'}
         </p>
       </header>
 
@@ -457,30 +452,29 @@ export default function LoginScreen({ onLogin }: { onLogin: (role: 'driver' | 's
             </button>
           </div>
 
-          {/* Mode switch: Demo vs Supabase */}
-          <div className="flex border-b border-border-subtle pb-3 mb-4 gap-2 text-xs font-bold">
+          {/* Mode switch: Acceso Directo vs Correo y Contraseña */}
+          <div className="flex border-b border-border-subtle pb-3 mb-4 gap-4 text-xs font-bold">
             <button
               onClick={() => { setAuthMode('demo'); setErrorMessage(null); }}
               className={cn(
-                "pb-1 border-b-2 transition-all",
+                "pb-1 border-b-2 transition-all cursor-pointer",
                 authMode === 'demo'
                   ? "border-[var(--color-role-primary)] text-[var(--color-role-primary)]"
                   : "border-transparent text-text-muted hover:text-text-main"
               )}
             >
-              Acceso Rápido
+              Acceso Directo
             </button>
             <button
               onClick={() => { setAuthMode('supabase'); setErrorMessage(null); }}
               className={cn(
-                "pb-1 border-b-2 transition-all flex items-center gap-1.5",
+                "pb-1 border-b-2 transition-all flex items-center gap-1.5 cursor-pointer",
                 authMode === 'supabase'
                   ? "border-[var(--color-role-primary)] text-[var(--color-role-primary)]"
                   : "border-transparent text-text-muted hover:text-text-main"
               )}
             >
-              <span>Supabase Auth</span>
-              <span className="text-[9px] px-1.5 py-0.2 rounded bg-[var(--color-role-primary)]/10 text-[var(--color-role-primary)] font-mono">SQL</span>
+              <span>Correo y Contraseña</span>
             </button>
           </div>
 
@@ -513,7 +507,7 @@ export default function LoginScreen({ onLogin }: { onLogin: (role: 'driver' | 's
                 </div>
               ) : (
                 <div className="p-2.5 bg-bg-main rounded-xl border border-border-subtle text-left text-[11px] text-text-muted flex items-center justify-between">
-                  <span>Tienda Piloto: <strong>Abarrotes Don Lupe</strong></span>
+                  <span>Sucursal Afiliada: <strong>Abarrotes Don Lupe</strong></span>
                   <span className="text-[9px] font-mono font-bold text-[var(--color-role-primary)]">Tampico Centro</span>
                 </div>
               )}
@@ -598,11 +592,11 @@ export default function LoginScreen({ onLogin }: { onLogin: (role: 'driver' | 's
                         onClick={() => {
                           setInvitationCode('IBARRA-VMI-2026');
                           setCodeVerified(true);
-                          setCodeFeedback('Folio piloto de demostración listo.');
+                          setCodeFeedback('Folio corporativo validado.');
                         }}
-                        className="text-[9px] text-[var(--color-role-primary)] underline font-bold"
+                        className="text-[9px] text-[var(--color-role-primary)] underline font-bold cursor-pointer"
                       >
-                        Usar Folio Piloto
+                        Autocompletar Folio
                       </button>
                     </div>
                     <div className="flex gap-2">
@@ -795,7 +789,7 @@ export default function LoginScreen({ onLogin }: { onLogin: (role: 'driver' | 's
                 ) : (
                   <>
                     <LogIn className="w-4 h-4" />
-                    <span>Iniciar Sesión con Supabase</span>
+                    <span>Iniciar Sesión</span>
                   </>
                 )}
               </button>
@@ -858,14 +852,14 @@ export default function LoginScreen({ onLogin }: { onLogin: (role: 'driver' | 's
           <InstallAppBanner variant="compact" />
 
           <p className="text-center text-text-muted text-[10px] mt-3 font-mono">
-            VMI SECURE PROTOCOL • CEDIS ALTAMIRA
+            ALMACENES IBARRA • CEDIS ALTAMIRA
           </p>
         </motion.div>
       </main>
 
       <footer className="relative mt-auto py-4 px-6 bg-surface-card/50 backdrop-blur-md border-t border-border-subtle">
         <p className="text-center text-[10px] font-bold text-text-muted uppercase tracking-[0.2em] font-mono">
-          VMI LOGISTICS RETAIL MX
+          ALMACENES IBARRA S.A. DE C.V.
         </p>
       </footer>
 

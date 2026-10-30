@@ -131,7 +131,7 @@ export default function InstallAppBanner({ variant = 'compact' }: InstallAppBann
             </div>
             <div>
               <span className="text-[9px] font-bold uppercase tracking-wider text-[var(--color-role-primary)] font-mono block">
-                Aplicación Nativa PWA
+                Aplicación Móvil Oficial
               </span>
               <p className="text-xs font-bold text-text-main">
                 Instalar VMI Retail en este dispositivo

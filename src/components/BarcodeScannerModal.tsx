@@ -86,7 +86,7 @@ export default function BarcodeScannerModal({
       }
     } catch (err: any) {
       console.warn("Camera stream notice:", err);
-      setCameraError('No se pudo acceder a la cámara. Puedes usar los códigos de prueba rápidos o ingresar el SKU.');
+      setCameraError('No se pudo acceder a la cámara. Selecciona un producto de la lista o ingresa el código SKU.');
       setCameraActive(false);
     }
   };
@@ -241,11 +241,11 @@ export default function BarcodeScannerModal({
               )}
             </div>
 
-            {/* Accesos rápidos de prueba de códigos de barras reales */}
+            {/* Accesos rápidos de productos frecuentes */}
             <div>
               <p className="text-[10px] font-bold text-text-muted uppercase mb-1.5 flex items-center gap-1">
                 <Zap size={11} className="text-amber-500" />
-                <span>Simular lectura de producto de tienda:</span>
+                <span>Productos de búsqueda rápida:</span>
               </p>
               <div className="flex flex-wrap gap-1.5">
                 {[
@@ -288,7 +288,7 @@ export default function BarcodeScannerModal({
             {loadingProduct && (
               <div className="p-4 text-center text-xs text-text-muted flex items-center justify-center gap-2">
                 <RefreshCw size={14} className="animate-spin text-[var(--color-role-primary)]" />
-                <span>Buscando en Supabase...</span>
+                <span>Consultando inventario...</span>
               </div>
             )}
 

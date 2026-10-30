@@ -43,7 +43,7 @@ export default function GoogleSignInModal({
       email: 'tienda.donlupe@ibarra.com.mx',
       name: 'D. Lupe Reyes (Abarrotes Don Lupe)',
       role: 'shop',
-      desc: 'Red VMI • Tienda piloto Tampico Centro'
+      desc: 'Red Comercial • Sucursal Tampico Centro'
     },
     {
       email: 'chofer402@ibarra.com.mx',
